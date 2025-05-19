@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Pengaduan Masyarakat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="form-box">
+        <div>
+            <h1 class="h1">Form Pengaduan Masyarakat</h1>
+            <a href="{{ url_for('login') }}" class="a-href-login">Login Admin</a>
+        </div>
+
+        <form action="/submit" method="POST" class="f-action">
+            <div>
+                <label>Jenis Pengaduan</label>
+                <select name="complaint_type" required>
+                    <option value="">-- Pilih --</option>
+                    <option value="Jalan Berlubang">Jalan Berlubang</option>
+                    <option value="Lampu Jalan Mati">Lampu Jalan Mati</option>
+                    <option value="Kebisingan">Kebisingan</option>
+                </select>
+            </div>
+            <div>
+                <label>Lokasi Kejadian</label>
+                <input type="text" name="location_description" required>
+            </div>
+            <div>
+                <label>Detail Pengaduan</label>
+                <textarea name="details" rows="4" required></textarea>
+            </div>
+            <div>
+                <label>Email (Opsional)</label>
+                <input type="email" name="contact_email">
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kirim</button>
+        </form>
+    </div>
+</body>
+</html>

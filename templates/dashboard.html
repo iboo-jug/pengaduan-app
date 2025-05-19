@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Pengaduan</h1>
+        {% if new_complaint_count > 0 %}
+    <div style="background-color: #fff3cd; color: #856404; padding: 10px; border: 1px solid #ffeeba; border-radius: 5px; margin-bottom: 15px;">
+        🔔 Terdapat {{ new_complaint_count }} pengaduan baru yang belum ditinjau.
+    </div>
+{% endif %}
+
+
+        <div class="top-bar">
+            <form method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Cari berdasarkan ID" class="border px-2 py-1">
+                <button type="submit">Cari</button>
+            </form>
+
+            <form action="{{ url_for('logout')}}" method="POST">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jenis Pengaduan</th>
+                    <th>Lokasi</th>
+                    <th>Detail</th>
+                    <th>Email</th>
+                    <th>Waktu</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for complaint in complaints %}
+                <tr>
+                    <td>{{ complaint.id }}</td>
+                    <td>{{ complaint.complaint_type }}</td>
+                    <td>{{ complaint.location_description }}</td>
+                    <td>{{ complaint.details }}</td>
+                    <td>{{ complaint.contact_email or '-' }}</td>
+                    <td>{{ complaint.submission_timestamp }}</td>
+                    <td>
+    <form method="POST" action="{{ url_for('update_status', complaint_id=complaint.id) }}">
+        <select name="status" onchange="this.form.submit()">
+            <option value="Baru" {% if complaint.status == 'Baru' %}selected{% endif %}>Baru</option>
+            <option value="Progress" {% if complaint.status == 'Progress' %}selected{% endif %}>Progress</option>
+            <option value="Selesai" {% if complaint.status == 'Selesai' %}selected{% endif %}>Selesai</option>
+        </select>
+    </form>
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination" style="text-align:center; margin-top: 20px;">
+            {% if page > 1 %}
+                <a href="{{ url_for('dashboard', page=page-1, search=search) }}" class="page-link">Sebelumnya</a>
+            {% endif %}
+            <span>Halaman {{ page }} dari {{ total_pages }}</span>
+            {% if page < total_pages %}
+                <a href="{{ url_for('dashboard', page=page+1, search=search) }}" class="page-link">Berikutnya</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
