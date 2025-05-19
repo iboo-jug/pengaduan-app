@@ -4,6 +4,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import csv
 from io import StringIO
+import logging
+import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Ganti dengan key lebih aman di produksi
@@ -201,4 +203,5 @@ def update_status(complaint_id):
 # Jalankan server
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
