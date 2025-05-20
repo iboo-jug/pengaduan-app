@@ -8,7 +8,7 @@ import logging
 import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Ganti dengan key lebih aman di produksi
+app.secret_key = 'supersecretkey'  
 
 # Inisialisasi database
 def init_db():
@@ -38,7 +38,6 @@ def init_db():
         )
     ''')
 
-    # Tambah admin awal jika belum ada
     c.execute("SELECT * FROM users WHERE username='admin'")
     if not c.fetchone():
         c.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
@@ -145,7 +144,7 @@ def dashboard():
                        search=search, 
                        page=page, 
                        total_pages=total_pages,
-                       new_complaint_count=new_count)  # Ganti dari new_count
+                       new_complaint_count=new_count)
 
 
     
@@ -198,6 +197,18 @@ def update_status(complaint_id):
     conn.close()
 
     return redirect(url_for('dashboard'))
+
+@app.route('/clear', methods=['GET'])
+def clear_data():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM complaints")
+    conn.commit()
+    conn.close()
+    return "Semua data berhasil dihapus dari database!"
 
 
 # Jalankan server
