@@ -2,7 +2,6 @@ from app import db
 from models import User
 from werkzeug.security import generate_password_hash
 
-# Ganti sesuai keinginan
 username = "admin"
 password = "admin123"
 

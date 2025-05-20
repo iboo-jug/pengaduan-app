@@ -198,18 +198,6 @@ def update_status(complaint_id):
 
     return redirect(url_for('dashboard'))
 
-@app.route('/clear', methods=['GET'])
-def clear_data():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("DELETE FROM complaints")
-    conn.commit()
-    conn.close()
-    return "Semua data berhasil dihapus dari database!"
-
 
 # Jalankan server
 if __name__ == '__main__':

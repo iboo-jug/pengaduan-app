@@ -17,11 +17,10 @@ body {
     max-width: 1200px;
 }
 
-/* ✳️ Style baru: border tengah di form pengaduan & login */
 .form-box {
     background-color: #fff;
-    border: 1px solid #e5e7eb; /* abu terang */
-    border-left: 4px solid #2563eb; /* aksen warna biru */
+    border: 1px solid #e5e7eb; 
+    border-left: 4px solid #2563eb; 
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
