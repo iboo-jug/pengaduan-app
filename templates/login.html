@@ -12,6 +12,8 @@
         <h2 class="h2">Login Admin</h2>
         <form action="/login" method="POST" class="f-action">
             {% if error %}
+             <p style="color:red;">{{ error }}</p>
+            {% endif %}
             <div>
                 <label>Username</label>
                 <input type="text" name="username" required>

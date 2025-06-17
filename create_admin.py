@@ -1,19 +1,19 @@
-from app import db
-from models import User
+import sqlite3
 from werkzeug.security import generate_password_hash
 
-username = "admin"
-password = "admin123"
+# Buat koneksi ke database
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
 
-# Buat user baru
-new_user = User(
-    username=username,
-    password_hash=generate_password_hash(password),
-    role="admin"
-)
+# Data user baru
+username = 'admin'
+password = generate_password_hash('admin123')
+role = 'admin'
 
-# Simpan ke database
-db.session.add(new_user)
-db.session.commit()
+# Masukkan ke tabel users
+c.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", (username, password, role))
+
+conn.commit()
+conn.close()
 
 print(f"Admin '{username}' berhasil dibuat!")
